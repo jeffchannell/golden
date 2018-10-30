@@ -7,6 +7,27 @@ import (
 	"math"
 )
 
+// Next finds the number that satifies the golden ratio using the length of a segment AS for the base
+func Next(a float64, s float64) (b float64) {
+	// Dividing a line segment by exterior division
+	// 1. Draw a line segment AS and construct off the point S a segment SC perpendicular to AS and with the same length as AS.
+	// get the distance between the two "points" (a,0) and (b,0)
+	as := math.Abs(a - s)
+	// 2. Do bisect the line segment AS with M.
+	am := as / 2
+	// 3. A circular arc around M with radius MC intersects in point B the straight line through points A and S (also known as the extension of AS). The ratio of AS to the constructed segment SB is the golden ratio.
+	// instead of an arc, we know that the value is the length of CM + AM, so find CM
+	// substitute AS for CS and AM for SM in these calculations, as they are the same sizes
+	// then offset with either a or s based on size
+	cm := math.Sqrt(as*as + am*am)
+	if a > s {
+		b = s - (cm - am)
+	} else {
+		b = a + (cm + am)
+	}
+	return
+}
+
 // Ratio finds the golden ratio between two numbers a and b
 func Ratio(a float64, b float64) (c float64) {
 	// use interior division to find c
